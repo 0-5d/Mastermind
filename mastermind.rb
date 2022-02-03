@@ -5,11 +5,11 @@ require 'pry-byebug'
 module Mastermind
   # only contains initialization variables for the game for now
   class Game
-    attr_accessor :guess, :bagels, :code
+    attr_accessor :bagels, :code
 
-    def initialize(guess, code)
+    def initialize(code)
       @code = code
-      @guess = guess
+      #@guess = guess
       @bagels = []
     end
 
@@ -17,7 +17,7 @@ module Mastermind
       guess == code
     end
 
-    def mark_bagels
+    def mark_bagels(guess)
       4.times do |i|
         if guess[i] == code[i]
           bagels.push('bagel')
@@ -62,13 +62,43 @@ module Mastermind
       end
       feedback
     end
+    # at some point this should probably go in its own class
+    def computer_move
+      guess = [0, 0, 0, 0]
+      guesses = 0
+      loop do
+        feedback = mark_bagels(guess)
+        break if feedback.count('bagel') == 4
+
+        guesses += 1
+        4.times do |i|
+          guess[i] += 1 unless feedback[i] == 'bagel'
+        end
+      end
+      guesses
+    end
+
+    def human_move
+      # so human move is easy just computer move except just gets and convert into an array of integers
+      guess = gets.chomp.split(' ')
+      guess.map!(&:to_i)
+      guesses = 0
+      4.times do
+        feedback = mark_bagels(guess)
+        break if feedback.count('bagel') == 4
+        p mark_picos
+        guesses += 1
+        guess = gets.chomp.split(' ')
+        guess.map!(&:to_i)
+      end
+      guesses
+    end
   end
 end
 # pretty sure mark_picos works but I'm not completely sure.
-# Should probably make a github repo and a new branch before we move on any farther though
 
 include Mastermind
 
-peepee = Game.new(%w[2 4 1 4], %w[2 4 1 3])
-peepee.mark_bagels
+peepee = Game.new([2, 9, 1, 3])
+peepee.mark_bagels([2, 3, 4 ,1])
 p peepee.mark_picos
