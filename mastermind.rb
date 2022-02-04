@@ -69,6 +69,6 @@ end
 
 include Mastermind
 
-peepee = Game.new(%w[2 4 1 4], %w[2 4 1 3])
+peepee = Game.new(%w[2 3 2 4], %w[3 4 1 3])
 peepee.mark_bagels
 p peepee.mark_picos
