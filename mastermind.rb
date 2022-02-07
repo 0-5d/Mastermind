@@ -33,6 +33,7 @@ module Mastermind
       picoed_code = []
       picoed = false
       bageled = false
+      # binding.pry
       4.times do |i|
         if bagels[i] == 'bagel'
           feedback.push('bagel')
@@ -51,12 +52,10 @@ module Mastermind
 
           picoed = false
           bageled = false
-          if bagels[i] == code[j]
-            feedback.push('pico')
-            picoed_code.push(j)
-            break
-          end
-          feedback.push(bagels[i])
+          next if bagels[i] == code[j]
+
+          feedback.push('pico')
+          picoed_code.push(j)
           break
         end
       end
@@ -64,11 +63,11 @@ module Mastermind
     end
   end
 end
-# pretty sure mark_picos works but I'm not completely sure.
+# mark_picos doesn't work
 # Should probably make a github repo and a new branch before we move on any farther though
 
 include Mastermind
 
-peepee = Game.new(%w[2 4 1 4], %w[2 4 1 3])
+peepee = Game.new(%w[2 4 1 2], %w[3 4 2 3])
 peepee.mark_bagels
 p peepee.mark_picos
