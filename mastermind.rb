@@ -61,6 +61,7 @@ module Mastermind
       end
       feedback
     end
+    
   end
 end
 # pretty sure mark_picos works but I'm not completely sure.
