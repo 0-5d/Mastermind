@@ -18,6 +18,7 @@ module Mastermind
     end
 
     def mark_bagels
+      bagels = []
       4.times do |i|
         if guess[i] == code[i]
           bagels.push('bagel')
@@ -61,7 +62,24 @@ module Mastermind
       end
       feedback
     end
-    
+
+    def computer_guess
+      guesses = 0
+
+      loop do
+        p guess
+        feedback = mark_bagels
+
+        break if feedback.count('bagel') == 4
+
+        guesses += 1
+        4.times do |i|
+          guess[i] += 1 unless feedback[i] == 'bagel'
+        end
+      end
+      guesses
+    end
+
   end
 end
 # pretty sure mark_picos works but I'm not completely sure.
@@ -69,6 +87,5 @@ end
 
 include Mastermind
 
-peepee = Game.new(%w[3 3 2 4], %w[3 4 1 2])
-peepee.mark_bagels
-p peepee.mark_picos
+peepee = Game.new([0, 0, 0, 0], [3, 5, 1, 2])
+p peepee.computer_move
