@@ -29,13 +29,13 @@ module Mastermind
     end
 
     def mark_picos
-      feedback = []
+      feedback = {}
       picoed_code = []
       picoed = false
       bageled = false
       4.times do |i|
         if bagels[i] == 'bagel'
-          feedback.push('bagel')
+          feedback[i] = 'bagel'
           next
         end
         4.times do |j|
@@ -51,12 +51,11 @@ module Mastermind
 
           picoed = false
           bageled = false
-          if bagels[i] == code[j]
-            feedback.push('pico')
-            picoed_code.push(j)
-            break
-          end
-          feedback.push(bagels[i])
+          next unless bagels[i] == code[j]
+
+          # binding.pry
+          feedback[i] = 'pico'
+          picoed_code.push(j)
           break
         end
       end
@@ -69,6 +68,6 @@ end
 
 include Mastermind
 
-peepee = Game.new(%w[2 3 2 4], %w[3 4 1 3])
+peepee = Game.new(%w[3 3 2 4], %w[3 4 1 2])
 peepee.mark_bagels
 p peepee.mark_picos
