@@ -30,6 +30,8 @@ module Mastermind
     end
 
     def mark_picos
+      p code
+      mark_bagels
       feedback = {}
       picoed_code = []
       picoed = false
@@ -63,27 +65,41 @@ module Mastermind
       feedback
     end
 
-    def computer_guess
-      guesses = 0
 
-      loop do
-        p guess
-        feedback = mark_bagels
 
-        break if feedback.count('bagel') == 4
+  end
+  def computer_guess
+    code = gets.chomp.split(' ')
+    code.map!(&:to_i)
+    game = Game.new([0, 0, 0, 0], code)
+    guesses = 0
 
-        guesses += 1
-        4.times do |i|
-          guess[i] += 1 unless feedback[i] == 'bagel'
-        end
+    loop do
+      p game.guess
+      feedback = game.mark_bagels
+
+      break if feedback.count('bagel') == 4
+
+      guesses += 1
+      4.times do |i|
+        game.guess[i] += 1 unless feedback[i] == 'bagel'
       end
-      guesses
     end
+    guesses
+  end
 
-    def human_guess
-      
+  def human_guess
+    guess = gets.chomp.split(' ')
+    guess.map!(&:to_i)
+    game = Game.new(guess, [rand(10), rand(10), rand(10), rand(10)])
+    2.times do
+      break if game.mark_picos.length.zero?
+
+      guess = gets.chomp.split(' ')
+      guess.map!(&:to_i)
+      p game.mark_picos
     end
-
+    p game.guess
   end
 end
 # pretty sure mark_picos works but I'm not completely sure.
@@ -92,4 +108,5 @@ end
 include Mastermind
 
 peepee = Game.new([0, 0, 0, 0], [3, 5, 1, 2])
-p peepee.computer_guess
+p peepee.mark_picos
+#human_guess
