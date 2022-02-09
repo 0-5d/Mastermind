@@ -80,6 +80,10 @@ module Mastermind
       guesses
     end
 
+    def human_guess
+      
+    end
+
   end
 end
 # pretty sure mark_picos works but I'm not completely sure.
