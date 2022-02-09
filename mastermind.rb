@@ -88,4 +88,4 @@ end
 include Mastermind
 
 peepee = Game.new([0, 0, 0, 0], [3, 5, 1, 2])
-p peepee.computer_move
+p peepee.computer_guess
