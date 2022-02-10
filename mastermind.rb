@@ -18,6 +18,7 @@ module Mastermind
     end
 
     def mark_bagels
+      @bagels = []
       4.times do |i|
         if guess[i] == code[i]
           bagels.push('bagel')
@@ -29,14 +30,15 @@ module Mastermind
     end
 
     def mark_picos
-      feedback = []
+      mark_bagels
+      feedback = {}
       picoed_code = []
       picoed = false
       bageled = false
       # binding.pry
       4.times do |i|
         if bagels[i] == 'bagel'
-          feedback.push('bagel')
+          feedback[i] = 'bagel'
           next
         end
         4.times do |j|
@@ -60,6 +62,43 @@ module Mastermind
         end
       end
       feedback
+    end
+
+
+
+  end
+  def computer_guess
+    code = gets.chomp.split(' ')
+    code.map!(&:to_i)
+    game = Game.new([0, 0, 0, 0], code)
+    guesses = 0
+
+    loop do
+      p game.guess
+      feedback = game.mark_bagels
+
+      break if feedback.count('bagel') == 4
+
+      guesses += 1
+      4.times do |i|
+        game.guess[i] += 1 unless feedback[i] == 'bagel'
+      end
+    end
+    guesses
+  end
+
+  def human_guess
+    guess = gets.chomp.split(' ')
+    guess.map!(&:to_i)
+    game = Game.new(guess, [rand(10), rand(10), rand(10), rand(10)])
+    p game.code
+    2.times do
+      #binding.pry
+      p game.mark_picos
+      break if game.bagels.count('bagel') == 4
+
+      game.guess = gets.chomp.split(' ')
+      game.guess.map!(&:to_i)
     end
   end
 end

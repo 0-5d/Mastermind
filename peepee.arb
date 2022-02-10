@@ -1,0 +1,32 @@
+
+require 'pry-byebug'
+# come on rubocop
+module Mastermind
+  # only contains initialization variables for the game for now
+  class Game
+    attr_accessor :guess, :bagels, :code
+    def initialize(guess, code)
+      @code = code
+      @guess = guess
+      @bagels = []
+    end
+    def perfect_guess?
+      guess == code
+    end
+    def mark_bagels
+      4.times do |i|
+        if guess[i] == code[i]
+          bagels.push('bagel')
+          next
+        end
+        bagels.push(guess[i])
+      end
+      bagels
+    end
+  end
+end
+include Mastermind
+
+pee = Game.new([1, 2, 3, 4], [1, 2,2,2])
+p pee.mark_bagels
+p pee.bagels
