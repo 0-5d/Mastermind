@@ -92,7 +92,7 @@ module Mastermind
     guess.map!(&:to_i)
     game = Game.new(guess, [rand(10), rand(10), rand(10), rand(10)])
     p game.code
-    2.times do
+    loop do
       #binding.pry
       p game.mark_picos
       break if game.bagels.count('bagel') == 4
@@ -110,3 +110,4 @@ include Mastermind
 peepee = Game.new(%w[2 4 1 2], %w[3 4 2 3])
 peepee.mark_bagels
 p peepee.mark_picos
+
